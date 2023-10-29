@@ -35,6 +35,14 @@ To initialize the application and set up the database, run the application with 
 
 This command will configure the necessary database and table structure based on the provided environment variables, allowing you to start using the Rust Notes CLI with ease.
 
+To add a note
+`./rust-notes-cli --add --title {your title here} --details {your details here}`
+
+This command will add a new note entry.
+
+To list notes
+`./rust-notes-cli --list --limit {optionally limit the search result by passing an integer}`
+
 Get started and manage your notes efficiently with Rust Notes CLI!
 
 
