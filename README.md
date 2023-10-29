@@ -29,20 +29,51 @@ TABLE_NAME=your_table
 ```
 
 ## Usage
+
+### Initialization
+
 To initialize the application and set up the database, run the application with the --init flag:
 
 `./rust-notes-cli --init`
 
 This command will configure the necessary database and table structure based on the provided environment variables, allowing you to start using the Rust Notes CLI with ease.
 
-To add a note
-`./rust-notes-cli --add --title {your title here} --details {your details here}`
+### Adding a Note
 
-This command will add a new note entry.
+To add a new note, you can use the following command:
 
-To list notes
-`./rust-notes-cli --list --limit {optionally limit the search result by passing an integer}`
+`./rust-notes-cli --add --title "Your Title" --details "Your Details"`
+
+Replace "Your Title" and "Your Details" with the actual title and details of your note. This command will create a new note with the specified title and details.
+
+### Listing Notes
+
+You can list your notes using the following command:
+
+`./rust-notes-cli --list`
+
+This command will display up to 10 notes by default, sorted from the latest to the oldest. To limit the number of notes displayed, you can use the --limit option, as shown in the next example.
+
+`./rust-notes-cli --list --limit 5`
+
+This will limit the list to the 5 most recent notes.
+
+### Deleting a Note
+
+To delete a specific note, you can use the following command:
+
+`./rust-notes-cli --delete {id}`
+
+Replace {id} with the actual ID of the note you want to delete. This command will remove the specified note from your notes database.
 
 Get started and manage your notes efficiently with Rust Notes CLI!
+
+## TODO
+
+- Filtering lists
+
+- Editing Notes
+
+- Refactoring DB Connections
 
 

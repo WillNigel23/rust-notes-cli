@@ -32,6 +32,9 @@ struct Opt  {
 
     #[structopt(long, default_value("10"))]
     limit: i32,
+
+    #[structopt(long)]
+    delete: Option<i32>,
 }
 
 fn main() {
@@ -58,6 +61,10 @@ fn main() {
     if opt.list {
         let limit = opt.limit;
         list_notes(limit);
+    }
+
+    if let Some(note_id) = opt.delete {
+        delete_note(note_id);
     }
 }
 
@@ -246,5 +253,34 @@ fn list_notes(limit: i32) {
             }
         }
         Err(e) => eprintln!("Error listing notes: {}", e),
+    }
+}
+
+fn delete_note(note_id: i32) {
+    let database_url = format!("{}/{}", env::var("DATABASE_URL").expect("DATABASE_URL not set in .env"), env::var("DATABASE_NAME").expect("DATABASE_NAME not set in .env"));
+
+    pd("Connecting to Postgres");
+    let mut client = match connect_db(&database_url) {
+        Ok(client) => client,
+        Err(e) => {
+            eprintln!("Error connecting to the database: {}",e);
+            return;
+        }
+    };
+    pd("Connected to Postgres");
+
+    println!("Deleting note with ID {}", note_id);
+
+    let delete_sql = "DELETE FROM notes WHERE id = $1";
+
+    match client.execute(delete_sql, &[&note_id]) {
+        Ok(rows_affected) => {
+            if rows_affected == 1 {
+                println!("Note with ID {} deleted successfully.", note_id);
+            } else {
+                println!("Note with ID {} not found.", note_id);
+            }
+        }
+        Err(e) => eprintln!("Error deleting note: {}", e),
     }
 }
